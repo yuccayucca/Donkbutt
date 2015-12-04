@@ -4,16 +4,17 @@
 </head>
 <body>
 
-<canvas id="myCanvas" width="1200" height="700" style="border:1px solid #000000;">
+<canvas id="myCanvas" width="1200" height="500" style="border:1px solid #000000;">
 Your browser does not support the HTML5 canvas tag.
 </canvas>
 </br>
 <form action="">
-<input type="radio" name="NSFW" value='1'>safe<br>
+<input type="radio" name="NSFW" value='1' checked = "checked">safe<br>
 <input type="radio" name="NSFW" value='0'>unsafe
 </form>
-<button onclick="setInterval(make(), 3000)">Begin</button>
-<button onclick="ctx.clearRect(0,0,1200,700)">Clear</button>
+<button onclick="function(){start};">Begin</button>
+<button onclick="function(){stop};">Stop</button>
+<button onclick="function(){clear};">Clear</button>
 </body>
 
 <script>
@@ -21,18 +22,33 @@ var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
 
 
+function start(){
+	setInterval(function(){make()}, 1000);
+	}
+function stop(){
+	clearInterval(function(){start()});
+	}
+function clear(){
+	ctx.clearRect(0,0,1200,500);
+	}
+
+
+
 function make(){
 	db_img = new Image();
 	userCh = document.querySelector('input[name= "NSFW"]:checked').value;
-	if (userCh === 0){
+	if (userCh === '0'){
 		db_img.src = 'DB.jpg';
 	}
 	else {
 		db_img.src = 'KT.jpg'}
 	db_img.onload = function(){
-		ctx.drawImage(db_img, Math.floor((Math.random()*1100)+1), Math.floor((Math.random()*600)+1))
+		ctx.drawImage(db_img, Math.floor((Math.random()*1100)+1), Math.floor((Math.random()*400)+1))
 		}
 	}
+	
+function beep(){
+	alert("beep");}
 	
 
 //function unmake(){
