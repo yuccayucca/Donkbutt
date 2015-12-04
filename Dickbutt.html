@@ -12,25 +12,21 @@ Your browser does not support the HTML5 canvas tag.
 <input type="radio" name="NSFW" value='1' checked = "checked">safe<br>
 <input type="radio" name="NSFW" value='0'>unsafe
 </form>
-<button onclick="function(){start};">Begin</button>
-<button onclick="function(){stop};">Stop</button>
-<button onclick="function(){clear};">Clear</button>
+<button onclick="timer">Begin</button>
+<button onclick="window.clearInterval(make());">Stop</button>
+<button onclick="ctx.clearRect(0,0,1200,500)">Clear</button>
 </body>
 
 <script>
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
+var timer = window.setInterval(function(){make()}, 1000);
 
 
-function start(){
-	setInterval(function(){make()}, 1000);
-	}
 function stop(){
-	clearInterval(function(){start()});
+	clearInterval(start());
 	}
-function clear(){
-	ctx.clearRect(0,0,1200,500);
-	}
+
 
 
 
