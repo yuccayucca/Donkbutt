@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
 
@@ -12,43 +13,76 @@ Your browser does not support the HTML5 canvas tag.
 <input type="radio" name="NSFW" value='1' checked = "checked">safe<br>
 <input type="radio" name="NSFW" value='0'>unsafe
 </form>
-<button onclick="timer">Begin</button>
-<button onclick="window.clearInterval(make());">Stop</button>
-<button onclick="ctx.clearRect(0,0,1200,500)">Clear</button>
+<button id="begin" >Begin</button>
+<button id="stop" >Stop</button>
+<button id="clear" >Clear</button>
 </body>
 
 <script>
 var c = document.getElementById("myCanvas");
 var ctx = c.getContext("2d");
-var timer = window.setInterval(function(){make()}, 1000);
+var timer; 
+var rx;
+var ry; 
+var x;
+var y;
+db_img = new Image();
 
+document.getElementById("stop").addEventListener("click", stop);
+document.getElementById("clear").addEventListener("click", clear);
+document.getElementById("begin").addEventListener("click", begin );
+document.getElementById("myCanvas").addEventListener("click", pos );
 
-function stop(){
-	clearInterval(start());
-	}
-
-
-
+//document.addEventListener("click", getCursorPosition);
+//c.addEventListener("")
 
 function make(){
-	db_img = new Image();
+	clear();
+	//db_img = new Image();
 	userCh = document.querySelector('input[name= "NSFW"]:checked').value;
 	if (userCh === '0'){
 		db_img.src = 'DB.jpg';
+	}else {
+		db_img.src = 'KT.jpg'
 	}
-	else {
-		db_img.src = 'KT.jpg'}
-	db_img.onload = function(){
-		ctx.drawImage(db_img, Math.floor((Math.random()*1100)+1), Math.floor((Math.random()*400)+1))
-		}
+	//beep();
+	rx = Math.floor((Math.random()*1100)+1);
+	ry = Math.floor((Math.random()*400)+1);
+	//db_img.onload = function(){
+	ctx.drawImage(db_img, rx, ry);
+	console.log( "X click: " + x + ", Y click: " + y);
+	console.log( "X butt: " + rx + ", Y butt: " + ry);
+	
+	if((x> rx && x< rx+300 ) && (y> ry && y <ry+300)){
+	//if((rx< x && rx>x+300 ) && (ry< y && ry>y+300)){
+		db_img.src = 'x.png';
+		alert("caught you!");
+		stop();
+		x=0;
+		y=0;		
 	}
+	//	}
+	}
+function pos(event) {
+	x = event.clientX;
+	y = event.clientY;
+	//alert( "X coords: " + x + ", Y coords: " + y);
+}
+
+function stop(){
+	clearInterval(timer);
+}
+function clear(){
+	ctx.clearRect(0,0,1200,500);
+}
+function begin(){
+	timer = setInterval(function(){make()}, 2000);
+	
+}
 	
 function beep(){
 	alert("beep");}
 	
 
-//function unmake(){
-//	ctx.clearRect(0, 0, 1200, 700);
-//	}
 </script>
 </html>
